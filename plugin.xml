@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-ocr-time-from-camera" version="1.0.6" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>OcrTimeFromCamera</name>
+    <js-module name="OcrTimeFromCamera" src="www/main.js">
+        <clobbers target="cordova.plugins.OcrTimeFromCamera" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Main">
+                <param name="android-package" value="com.thecodealer.OcrTimeFromCamera.Main" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.CAMERA" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:label="OCR Capture Activity" android:name="com.thecodealer.OcrTimeFromCamera.ocrreader.OcrCaptureActivity" android:theme="@style/Theme.AppCompat.Light" android:screenOrientation="portrait" />
+        </config-file>
+
+        <source-file src="src/android/Main.java" target-dir="src/com/thecodealer/OcrTimeFromCamera" />
+        <source-file src="src/android/ocrreader/OcrCaptureActivity.java" target-dir="src/com/thecodealer/OcrTimeFromCamera/ocrreader" />
+        <source-file src="src/android/ocrreader/OcrDetectorProcessor.java" target-dir="src/com/thecodealer/OcrTimeFromCamera/ocrreader" />
+        <source-file src="src/android/ocrreader/OcrGraphic.java" target-dir="src/com/thecodealer/OcrTimeFromCamera/ocrreader" />
+        <source-file src="src/android/ocrreader/ui/camera/CameraSource.java" target-dir="src/com/thecodealer/OcrTimeFromCamera/ocrreader/ui/camera" />
+        <source-file src="src/android/ocrreader/ui/camera/CameraSourcePreview.java" target-dir="src/com/thecodealer/OcrTimeFromCamera/ocrreader/ui/camera" />
+        <source-file src="src/android/ocrreader/ui/camera/GraphicOverlay.java" target-dir="src/com/thecodealer/OcrTimeFromCamera/ocrreader/ui/camera" />
+        <source-file src="src/android/res/ocr_capture.xml" target-dir="res/layout"/>
+
+        <framework src="com.android.support:support-v4:26.1.0" />
+        <framework src="com.android.support:design:26.1.0" />
+        <framework src="com.google.android.gms:play-services-vision:15.0.0" />
+        <framework src="com.google.code.gson:gson:2.8.6" />
+    </platform>
+</plugin>

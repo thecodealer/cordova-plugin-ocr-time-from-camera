@@ -1,0 +1,28 @@
+{
+  "name": "cordova-plugin-ocr-time-from-camera",
+  "version": "1.0.1",
+  "description": "cordova plugin for scanning time from camera using Google Vision OCR",
+  "cordova": {
+    "id": "cordova-plugin-ocr-time-from-camera",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Isa Frimpong",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thecodealer/cordova-plugin-ocr-time-from-camera.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thecodealer/cordova-plugin-ocr-time-from-camera/issues"
+  },
+  "homepage": "https://github.com/thecodealer/cordova-plugin-ocr-time-from-camera#readme"
+}
