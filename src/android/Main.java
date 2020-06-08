@@ -18,8 +18,6 @@ import android.os.Bundle;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 
-import com.google.gson.Gson;
-
 public class Main extends CordovaPlugin {
 
     public static CallbackContext jsContext;
