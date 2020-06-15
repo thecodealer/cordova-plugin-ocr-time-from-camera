@@ -8,7 +8,6 @@
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="Main">
                 <param name="android-package" value="com.thecodealer.OcrTimeFromCamera.Main" />
-                <param name="onload" value="true" />
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml">
@@ -30,5 +29,27 @@
         <framework src="com.android.support:support-v4:26.1.0" />
         <framework src="com.android.support:design:26.1.0" />
         <framework src="com.google.android.gms:play-services-vision:15.0.0" />
+    </platform>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Main">
+                <param name="ios-package" value="OcrTimeFromCamera" />
+            </feature>
+        </config-file>
+		<config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+			<string>This app needs access to the camera to take photos.</string>
+		</config-file>
+
+        <source-file src="src/ios/OcrTimeFromCamera.swift" />
+        <source-file src="src/ios/TimeReader/ViewController.swift" />
+        <source-file src="src/ios/TimeReader/VisionViewController.swift" />
+        <source-file src="src/ios/TimeReader/PreviewView.swift" />
+        <source-file src="src/ios/TimeReader/StringUtils.swift" />
+        <resource-file src="src/ios/OcrTimeFromCameraMain.storyboard" />
+
+        <framework src="AVFoundation.framework" />
+        <framework src="Vision.framework" />
+
+        <dependency id="cordova-plugin-add-swift-support" version="2.0.2" />
     </platform>
 </plugin>

@@ -50,12 +50,15 @@ public class Main extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_OCR_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
+                Boolean hasResult = false;
                 if (data != null) {
                     String text = data.getStringExtra(com.thecodealer.OcrTimeFromCamera.ocrreader.OcrCaptureActivity.TextBlockObject);
                     if (text != null) {
+                        hasResult = true;
                         this.returnSuccess("captured", text);
                     }
                 }
+                this.returnSuccess("stopped", null);
             }
             else {
                 String err = data.getParcelableExtra("err");
