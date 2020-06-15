@@ -68,3 +68,9 @@ var app = {
 
 app.initialize();
 ```
+
+## Notes on iOS
+Make sure to add this to config.xml to use Swift v5
+```
+<preference name="UseSwiftLanguageVersion" value="5" />
+```
