@@ -82,6 +82,7 @@ class OcrScannerViewController: VisionViewController {
     weak var delegate: OcrScannerDelegate?
     var textRequest: VNRecognizeTextRequest!
     var timeFound: Bool = false
+    var matchedTimePatterns = [String: Int]();
 
     override func viewDidLoad() {
         textRequest = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
@@ -114,7 +115,17 @@ class OcrScannerViewController: VisionViewController {
                         numbers.append(time)
                         greenBoxes.append(box)
                         numberIsSubstring = !(range.lowerBound == candidate.string.startIndex && range.upperBound == candidate.string.endIndex)
-                        onTimeFound(time)
+                        let timePattern = String(time.dropLast())
+                        if isBestMatch(timePattern) {
+                            onTimeFound(time)
+                        }
+                        
+                        if matchedTimePatterns[timePattern] != nil {
+                            matchedTimePatterns[timePattern] = matchedTimePatterns[timePattern]! + 1
+                        }
+                        else {
+                            matchedTimePatterns[timePattern] = 1
+                        }
                     }
                 }
                 if numberIsSubstring {
@@ -136,6 +147,14 @@ class OcrScannerViewController: VisionViewController {
     func onTimeFound(_ time: String) {
         timeFound = true
         delegate?.onScannerResult(data: time)
+    }
+    
+    func isBestMatch(_ pattern: String) -> Bool {
+        var output: Bool = false;
+        if matchedTimePatterns[pattern] != nil {
+            output = matchedTimePatterns[pattern]! > 2
+        }
+        return output;
     }
 }
 

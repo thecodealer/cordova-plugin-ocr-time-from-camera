@@ -22,8 +22,8 @@ import com.thecodealer.OcrTimeFromCamera.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -35,9 +35,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
     private GraphicOverlay<OcrGraphic> graphicOverlay;
     private OcrCaptureActivity captureActivity;
-    private final String timeRegexString = ".*(^|\\s)\\d{1,3}(:|\\s|\\.)\\d{2}($|\\s).*";
-    public static List<String> timesMatched = new ArrayList<String>();
-    public String matchedText = null;
+    private Map<String, Integer> matchedTimePatterns = new HashMap<>();
 
     OcrDetectorProcessor(GraphicOverlay<OcrGraphic> ocrGraphicOverlay, OcrCaptureActivity activity) {
         graphicOverlay = ocrGraphicOverlay;
@@ -65,8 +63,19 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
                     Matcher m = p.matcher(item.getValue());
                     if (m.find()) {
                         String formattedText = m.group(0).trim().replaceAll("(\\s|\\.)+", ":");
-                        captureActivity.onTimeMatched(formattedText);
-                        release();
+                        String formattedTextPattern = formattedText.substring(0, formattedText.length() - 1);
+                        if (this.isBestMatch(formattedTextPattern)) {
+                            captureActivity.onTimeMatched(formattedText);
+                            matchedTimePatterns.clear();
+                            release();
+                        }
+
+                        if (matchedTimePatterns.containsKey(formattedTextPattern)) {
+                            matchedTimePatterns.put(formattedTextPattern, matchedTimePatterns.get(formattedTextPattern) + 1);
+                        }
+                        else {
+                            matchedTimePatterns.put(formattedTextPattern, 1);
+                        }
                     }
                 }
             }
@@ -81,7 +90,16 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         graphicOverlay.clear();
     }
 
-    protected boolean isTime(String text) {
-        return Pattern.matches(this.timeRegexString, text);
+    private boolean isTime(String text) {
+        String timeRegexString = ".*(^|\\s)\\d{1,3}(:|\\s|\\.)\\d{2}($|\\s).*";
+        return Pattern.matches(timeRegexString, text);
+    }
+
+    private boolean isBestMatch(String pattern) {
+        boolean output = false;
+        if (matchedTimePatterns.containsKey(pattern)) {
+            output = matchedTimePatterns.get(pattern) > 2;
+        }
+        return output;
     }
 }
