@@ -59,7 +59,8 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
                 if (this.isTime(item.getValue())) {
                     OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
                     graphicOverlay.add(graphic);
-                    Pattern p = Pattern.compile("\\d{1,3}(:|\\s|\\.)\\d{2}");
+                    // Pattern p = Pattern.compile("\\d{1,3}(:|\\s|\\.)\\d{2}");
+                    Pattern p = Pattern.compile("\\d{2,3}(:|\\.)\\d{2}");
                     Matcher m = p.matcher(item.getValue());
                     if (m.find()) {
                         String formattedText = m.group(0).trim().replaceAll("(\\s|\\.)+", ":");
@@ -91,7 +92,8 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     }
 
     private boolean isTime(String text) {
-        String timeRegexString = ".*(^|\\s)\\d{1,3}(:|\\s|\\.)\\d{2}($|\\s).*";
+        // String timeRegexString = ".*(^|\\s)\\d{1,3}(:|\\s|\\.)\\d{2}($|\\s).*";
+        String timeRegexString = ".*(^|\\s)\\d{2,3}(:|\\.)\\d{2}($|\\s).*";
         return Pattern.matches(timeRegexString, text);
     }
 

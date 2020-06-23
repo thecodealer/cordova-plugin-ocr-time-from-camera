@@ -146,6 +146,7 @@ class OcrScannerViewController: VisionViewController {
     
     func onTimeFound(_ time: String) {
         timeFound = true
+        matchedTimePatterns.removeAll()
         delegate?.onScannerResult(data: time)
     }
     
@@ -160,7 +161,8 @@ class OcrScannerViewController: VisionViewController {
 
 extension String {
     func extractTime() -> (Range<String.Index>, String)? {
-        let pattern = #"(^|\s)\d{1,3}(:|\s|\.)\d{2}($|\s)"#
+        // let pattern = #"(^|\s)\d{1,3}(:|\s|\.)\d{2}($|\s)"#
+        let pattern = #"(^|\s)\d{2,3}(:|\.)\d{2}($|\s)"#
         let string = self
         
         guard let range = string.range(of: pattern, options: .regularExpression, range: nil, locale: nil) else {
